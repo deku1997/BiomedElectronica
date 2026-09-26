@@ -9,16 +9,42 @@
 <body>
     <header class="main-header">
         <div class="header-content">
-            <h1 class="logo">Biomed<span>Electrónica</span></h1>
+            <h1 class="logo">
+                <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#2563eb"/>
+                            <stop offset="50%" stop-color="#0891b2"/>
+                            <stop offset="100%" stop-color="#10b981"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="46" fill="none" stroke="url(#logoGrad)" stroke-width="4"/>
+                    <path d="M 15 50 L 30 50 L 35 35 L 42 65 L 48 42 L 54 58 L 60 50 L 85 50" 
+                          fill="none" stroke="url(#logoGrad)" stroke-width="4" 
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="30" cy="50" r="3" fill="#2563eb"/>
+                    <circle cx="70" cy="50" r="3" fill="#10b981"/>
+                </svg>
+                <div class="logo-text">
+                    <span class="line-1">Biomed</span>
+                    <span class="line-2">Electrónica</span>
+                </div>
+            </h1>
             <div class="user-info">
-                <span id="user-name-display"></span>
+                <div class="user-badge">
+                    <div class="user-avatar" id="user-avatar">?</div>
+                    <span id="user-name-display"></span>
+                </div>
                 <a href="#" id="logout-btn" class="btn-logout">Cerrar Sesión</a>
             </div>
         </div>
     </header>
 
     <main class="dashboard-main">
-        <h2>Unidades de Estudio</h2>
+        <div class="dashboard-header">
+            <h2>Panel de Estudio</h2>
+            <p>Selecciona una unidad para comenzar tu aprendizaje en electrónica biomédica</p>
+        </div>
         <div class="unidades-grid" id="unidades-container">
             <!-- Las tarjetas de las unidades se cargarán aquí -->
         </div>
@@ -29,5 +55,14 @@
     </footer>
 
     <script src="js/dashboard.js"></script>
+    <script>
+        // Actualizar el avatar con la inicial del usuario
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user) {
+                document.getElementById('user-avatar').textContent = user.nombre.charAt(0).toUpperCase();
+            }
+        });
+    </script>
 </body>
 </html>

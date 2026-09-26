@@ -8,14 +8,34 @@
 </head>
 <body>
     <header class="main-header">
-        <div class="header-content">
-            <h1 class="logo">Biomed<span>Electrónica</span></h1>
-            <div class="user-info">
-                <a href="dashboard.html" class="btn-back">← Volver al Panel</a>
-                <a href="#" id="logout-btn" class="btn-logout">Cerrar Sesión</a>
+    <div class="header-content">
+        <h1 class="logo">
+            <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#2563eb"/>
+                        <stop offset="50%" stop-color="#0891b2"/>
+                        <stop offset="100%" stop-color="#10b981"/>
+                    </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="46" fill="none" stroke="url(#logoGrad)" stroke-width="4"/>
+                <path d="M 15 50 L 30 50 L 35 35 L 42 65 L 48 42 L 54 58 L 60 50 L 85 50" 
+                      fill="none" stroke="url(#logoGrad)" stroke-width="4" 
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="30" cy="50" r="3" fill="#2563eb"/>
+                <circle cx="70" cy="50" r="3" fill="#10b981"/>
+            </svg>
+            <div class="logo-text">
+                <span class="line-1">Biomed</span>
+                <span class="line-2">Electrónica</span>
             </div>
+        </h1>
+        <div class="user-info">
+            <a href="dashboard.html" class="btn-back">← Volver al Panel</a>
+            <a href="#" id="logout-btn" class="btn-logout">Cerrar Sesión</a>
         </div>
-    </header>
+    </div>
+</header>
 
     <main class="unit-main">
         <article id="unit-content">
