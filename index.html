@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiomedElectrónica | Ingreso</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <h1 class="logo">Biomed<span>Electrónica</span></h1>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="login">Iniciar Sesión</button>
+                <button class="tab-btn" data-tab="register">Registrarse</button>
+            </div>
+
+            <!-- Formulario de Login -->
+            <form id="login-form" class="auth-form active">
+                <div class="input-group">
+                    <label for="login-cedula">Cédula</label>
+                    <input type="text" id="login-cedula" placeholder="Ingresa tu cédula" required>
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary">Entrar</button>
+                <p class="message" id="login-message"></p>
+            </form>
+
+            <!-- Formulario de Registro -->
+            <form id="register-form" class="auth-form">
+                <div class="input-group">
+                    <label for="reg-nombre">Nombres</label>
+                    <input type="text" id="reg-nombre" placeholder="Tus nombres" required>
+                </div>
+                <div class="input-group">
+                    <label for="reg-apellido">Apellidos</label>
+                    <input type="text" id="reg-apellido" placeholder="Tus apellidos" required>
+                </div>
+                <div class="input-group">
+                    <label for="reg-seccion">Sección</label>
+                    <input type="text" id="reg-seccion" placeholder="Ej. A" required>
+                </div>
+                <div class="input-group">
+                    <label for="reg-cedula">Cédula</label>
+                    <input type="text" id="reg-cedula" placeholder="Ingresa tu cédula" required>
+                </div>
+                <div class="input-group">
+                    <label for="reg-password">Contraseña</label>
+                    <input type="password" id="reg-password" placeholder="Crea una contraseña" required>
+                </div>
+                <button type="submit" class="btn-primary">Registrarse</button>
+                <p class="message" id="register-message"></p>
+            </form>
+        </div>
+        <footer class="main-footer">
+            <p>Ing. Angel Urdaneta</p>
+        </footer>
+    </div>
+    <script src="js/auth.js"></script>
+</body>
+</html>

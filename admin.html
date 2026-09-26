@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiomedElectrónica | Administración</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <h1 class="logo">Biomed<span>Electrónica</span> Admin</h1>
+            <div class="user-info">
+                <a href="dashboard.html" class="btn-back">← Ir al Panel</a>
+                <a href="#" id="logout-btn" class="btn-logout">Cerrar Sesión</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <h2>Usuarios Registrados</h2>
+        <div class="table-container">
+            <table id="users-table">
+                <thead>
+                    <tr>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Sección</th>
+                        <th>Cédula</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table-body">
+                    <!-- Los usuarios se cargarán aquí -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>Ing. Angel Urdaneta</p>
+    </footer>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
