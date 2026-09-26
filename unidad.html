@@ -5,21 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BiomedElectrónica | Unidad</title>
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Estilos para bloques de código y diagramas -->
-    <style>
-        .diagram-container { text-align: center; margin: 2rem 0; }
-        .diagram-container svg { max-width: 100%; height: auto; }
-        .code-block {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-            border: 1px solid #30363d;
-            margin: 1.5rem 0;
-        }
-    </style>
 </head>
 <body>
     <header class="main-header">
@@ -34,9 +19,19 @@
 
     <main class="unit-main">
         <article id="unit-content">
-            <!-- El contenido de la unidad se cargará aquí dinámicamente -->
             <div class="loading-spinner">Cargando contenido de la unidad...</div>
         </article>
+
+        <!-- Sección del Cuestionario -->
+        <section id="quiz-section" class="quiz-section" style="display:none;">
+            <h3>Cuestionario de Autoevaluación</h3>
+            <p>Responde las siguientes preguntas para poner a prueba tus conocimientos. Recibirás retroalimentación inmediata.</p>
+            <form id="quiz-form">
+                <div id="questions-wrapper"></div>
+                <button type="submit" id="submit-quiz" class="btn-primary">Enviar Respuestas</button>
+            </form>
+            <div id="quiz-results" class="quiz-results"></div>
+        </section>
     </main>
 
     <footer class="main-footer">
@@ -56,14 +51,102 @@
             const urlParams = new URLSearchParams(window.location.search);
             const unidadId = urlParams.get('unidad');
             const contentContainer = document.getElementById('unit-content');
+            const quizSection = document.getElementById('quiz-section');
 
             if (unidadId && contentData[unidadId]) {
-                contentContainer.innerHTML = contentData[unidadId];
+                const unidad = contentData[unidadId];
+                
+                // Cargar contenido teórico
+                contentContainer.innerHTML = unidad.content;
+                
+                // Cargar cuestionario
+                if (unidad.quiz && unidad.quiz.length > 0) {
+                    quizSection.style.display = 'block';
+                    renderQuiz(unidad.quiz);
+                }
             } else {
                 contentContainer.innerHTML = '<h2>Unidad no encontrada</h2><p>Por favor, selecciona una unidad válida.</p>';
             }
 
-            // Lógica de cierre de sesión
+            // --- Lógica del Cuestionario ---
+            function renderQuiz(questions) {
+                const questionsWrapper = document.getElementById('questions-wrapper');
+                questionsWrapper.innerHTML = '';
+                
+                questions.forEach((q, index) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.classList.add('question-block');
+                    questionDiv.setAttribute('data-question-id', q.id);
+                    
+                    let optionsHTML = '';
+                    q.options.forEach((opt, optIndex) => {
+                        optionsHTML += `
+                            <label class="option">
+                                <input type="radio" name="q${q.id}" value="${optIndex}">
+                                <span>${opt}</span>
+                            </label>
+                        `;
+                    });
+
+                    questionDiv.innerHTML = `
+                        <p>${index + 1}. ${q.question}</p>
+                        ${optionsHTML}
+                        <div class="feedback" id="feedback-q${q.id}"></div>
+                    `;
+                    questionsWrapper.appendChild(questionDiv);
+                });
+
+                // Event listener para el envío
+                document.getElementById('quiz-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    evaluateQuiz(questions);
+                });
+            }
+
+            function evaluateQuiz(questions) {
+                let score = 0;
+                const totalQuestions = questions.length;
+
+                questions.forEach(q => {
+                    const selectedOption = document.querySelector(`input[name="q${q.id}"]:checked`);
+                    const feedbackDiv = document.getElementById(`feedback-q${q.id}`);
+                    
+                    if (!selectedOption) {
+                        feedbackDiv.textContent = "⚠ No has seleccionado una respuesta.";
+                        feedbackDiv.className = 'feedback incorrect';
+                        return;
+                    }
+
+                    const selectedValue = parseInt(selectedOption.value);
+                    if (selectedValue === q.correct) {
+                        score++;
+                        feedbackDiv.textContent = "✔ ¡Correcto! " + q.feedback;
+                        feedbackDiv.className = 'feedback correct';
+                    } else {
+                        feedbackDiv.textContent = "✘ Incorrecto. " + q.feedback;
+                        feedbackDiv.className = 'feedback incorrect';
+                    }
+                });
+
+                // Mostrar la puntuación final
+                const scorePercentage = Math.round((score / totalQuestions) * 100);
+                const resultsContainer = document.getElementById('quiz-results');
+                resultsContainer.innerHTML = `
+                    <h4>📊 Resultados del Cuestionario</h4>
+                    <p>Has acertado <strong>${score}</strong> de <strong>${totalQuestions}</strong> preguntas.</p>
+                    <p>Puntuación: <strong>${scorePercentage}%</strong></p>
+                    ${scorePercentage >= 80 ? '<p style="color:#28a745;">¡Excelente trabajo! Has dominado esta unidad.</p>' : 
+                      scorePercentage >= 60 ? '<p style="color:#ffc107;">Buen trabajo, pero repasa los conceptos fallados.</p>' :
+                      '<p style="color:#dc3545;">Necesitas repasar esta unidad. Te recomendamos releer el contenido teórico.</p>'}
+                `;
+
+                // Deshabilitar el botón de envío y los inputs
+                document.getElementById('submit-quiz').disabled = true;
+                document.getElementById('submit-quiz').textContent = 'Cuestionario Enviado';
+                document.querySelectorAll('#quiz-form input').forEach(input => input.disabled = true);
+            }
+
+            // --- Cierre de sesión ---
             document.getElementById('logout-btn').addEventListener('click', (e) => {
                 e.preventDefault();
                 localStorage.removeItem('currentUser');
